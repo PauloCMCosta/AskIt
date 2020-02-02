@@ -15,7 +15,7 @@
 
 	// Use 'appPort' to create a container with published ports. If the port isn't working, be sure
 	// your server accepts connections from all interfaces (0.0.0.0 or '*'), not just localhost.
-	// "appPort": [5000, 5001],
+	"appPort": [5000, 5001],
 
 	// [Optional] To reuse of your local HTTPS dev cert, first export it locally using this command: 
 	//  * Windows PowerShell:
