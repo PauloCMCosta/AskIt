@@ -24,8 +24,7 @@ namespace AskIt.Api.Features.Question
 
         public async Task<string> Handle(QuestionCreateCommand request, CancellationToken cancellationToken)
         {
-            if (request.QuestionType == QuestionType.EssayQuestion && request.Choices?.Count > 0)
-                throw new ArgumentException("Essay question cannot have choises");
+            new QuestionCreationValidator().Validate(request);
 
             var question = _mapper.Map<QuestionModel>(request);
             question.Id = Guid.NewGuid().ToString("N");
