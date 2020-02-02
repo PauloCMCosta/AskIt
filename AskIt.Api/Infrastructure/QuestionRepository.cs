@@ -8,12 +8,12 @@ namespace AskIt.Api.Infrastructure
     {
         public QuestionRepository()
         {
-            Questions = new List<Question>();
+            Questions = new List<QuestionModel>();
         }
 
-        private IList<Question> Questions {get;}
+        private IList<QuestionModel> Questions {get;}
         
-        public async Task Save(Question question)
+        public async Task Save(QuestionModel question)
         {
             await Task.Run(() => Questions.Add(question));
         }

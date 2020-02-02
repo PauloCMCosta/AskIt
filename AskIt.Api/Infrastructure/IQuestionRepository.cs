@@ -5,6 +5,6 @@ namespace AskIt.Api.Infrastructure
 {
     public interface IQuestionRepository
     {
-        Task Save(Question question);
+        Task Save(QuestionModel question);
     }
 }

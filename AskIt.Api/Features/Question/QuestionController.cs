@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace AskIt.Api.Features
+namespace AskIt.Api.Features.Question
 {
     [ApiController]
     [Route("api/[controller]")]

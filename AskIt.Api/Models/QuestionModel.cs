@@ -1,6 +1,6 @@
 ﻿namespace AskIt.Api.Models
 {
-    public class Question
+    public class QuestionModel
     {
         public string Id { get; set; }
         public string Title { get; set; }     
