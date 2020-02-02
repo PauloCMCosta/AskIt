@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -21,8 +22,19 @@ namespace AskIt.Api.Features.Question
         [HttpPost]
         public async Task<IActionResult> Post(QuestionCreateCommand command)
         {
-            var question = await _mediator.Send(command);
-            return Ok(question);
+            try
+            {
+                var id = await _mediator.Send(command);
+                return Ok(new { Id = id });
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { Error = ex.Message });
+            }
         }
     }
 }

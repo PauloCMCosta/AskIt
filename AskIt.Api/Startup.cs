@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AskIt.Api.Infrastructure;
+using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -26,9 +27,13 @@ namespace AskIt.Api
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.AddSingleton<IQuestionRepository, QuestionRepository>();
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(opt =>
+                {
+                    opt.JsonSerializerOptions.IgnoreNullValues = true;
+                });       
+            services.AddAutoMapper(typeof(Startup));
             services.AddMediatR(typeof(Startup));
         }
 

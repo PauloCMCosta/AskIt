@@ -4,30 +4,35 @@ using System.Threading.Tasks;
 using AskIt.Api.Models;
 using AskIt.Api.Infrastructure;
 using MediatR;
+using AutoMapper;
 
 namespace AskIt.Api.Features.Question
 {
     public class CommandHandler :
-        IRequestHandler<QuestionCreateCommand, QuestionModel>
+        IRequestHandler<QuestionCreateCommand, string>
     {
+        private readonly IMapper _mapper;
         private readonly IMediator _mediator;
         private readonly IQuestionRepository _QuestionRepository;
 
-        public CommandHandler(IMediator mediator, IQuestionRepository QuestionRepository)
+        public CommandHandler(IMapper mapper, IMediator mediator, IQuestionRepository QuestionRepository)
         {
+            _mapper = mapper;
             _mediator = mediator;
             _QuestionRepository = QuestionRepository;
         }
 
-        public async Task<QuestionModel> Handle(QuestionCreateCommand request, CancellationToken cancellationToken)
-        { 
-            var question = new QuestionModel{ 
-                Id =  Guid.NewGuid().ToString("N"), 
-                Title = request.Title
-            };
+        public async Task<string> Handle(QuestionCreateCommand request, CancellationToken cancellationToken)
+        {
+            if (request.QuestionType == QuestionType.EssayQuestion && request.Choices?.Count > 0)
+                throw new ArgumentException("Essay question cannot have choises");
+
+            var question = _mapper.Map<QuestionModel>(request);
+            question.Id = Guid.NewGuid().ToString("N");
+
             await _QuestionRepository.Save(question);
 
-            return await Task.FromResult(question);
+            return await Task.FromResult(question.Id);
         }
     }
 }
