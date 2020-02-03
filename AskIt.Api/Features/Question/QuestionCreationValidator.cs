@@ -17,17 +17,17 @@ namespace AskIt.Api.Features.Question
 
             if (request.QuestionType == QuestionType.SingleChoiceQuestion)
             {
-                if (request.Choices?.Count <= 2)
+                if (request.Choices?.Count < 2)
                     throw new ArgumentException(CHOICE_QUESTION_WITHOUT_CHOICES);
             }
 
             if (request.QuestionType == QuestionType.MultipleChoiceQuestion)
             {
-                if (request.Choices?.Count <= 2)
+                if (request.Choices?.Count < 2)
                     throw new ArgumentException(CHOICE_QUESTION_WITHOUT_CHOICES);
             }
 
-            if (!request.Choices.Any(q => q.RightAnswer))
+            if (request.Choices?.Count > 0 && !request.Choices.Any(q => q.RightAnswer))
                 throw new ArgumentException(CHOICE_QUESTION_WITOUT_RIGHT_ANSWER);
         }
     }

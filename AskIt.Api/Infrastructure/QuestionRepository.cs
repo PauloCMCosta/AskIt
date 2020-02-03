@@ -12,7 +12,12 @@ namespace AskIt.Api.Infrastructure
         }
 
         private IList<QuestionModel> Questions {get;}
-        
+
+        public async Task<IEnumerable<QuestionModel>> Get()
+        {
+            return await Task.FromResult(Questions);
+        }
+
         public async Task Save(QuestionModel question)
         {
             await Task.Run(() => Questions.Add(question));

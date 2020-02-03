@@ -5,11 +5,13 @@ using AskIt.Api.Models;
 using AskIt.Api.Infrastructure;
 using MediatR;
 using AutoMapper;
+using System.Collections.Generic;
 
 namespace AskIt.Api.Features.Question
 {
     public class CommandHandler :
-        IRequestHandler<QuestionCreateCommand, string>
+        IRequestHandler<QuestionCreateCommand, string>,
+        IRequestHandler<QuestionQueryCommand, IEnumerable<QuestionModel>>
     {
         private readonly IMapper _mapper;
         private readonly IMediator _mediator;
@@ -32,6 +34,11 @@ namespace AskIt.Api.Features.Question
             await _QuestionRepository.Save(question);
 
             return await Task.FromResult(question.Id);
+        }
+
+        public async Task<IEnumerable<QuestionModel>> Handle(QuestionQueryCommand request, CancellationToken cancellationToken)
+        {
+           return await _QuestionRepository.Get();
         }
     }
 }

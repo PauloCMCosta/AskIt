@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using AskIt.Api.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,6 +19,13 @@ namespace AskIt.Api.Features.Question
         {
             _mediator = mediator;
             _logger = logger;
+        }
+
+         [HttpGet]
+        public async Task<IEnumerable<QuestionModel>> Get(QuestionQueryCommand command)
+        {
+            var questions = await _mediator.Send(command);
+            return questions;
         }
 
         [HttpPost]
